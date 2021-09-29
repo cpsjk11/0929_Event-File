@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mem">
+	<!-- 회원가입을 하는 insert -->
+	<insert id="add" parameterType="java.util.Map">
+		INSERT INTO member_t (m_id, m_pw, m_name, m_email)
+		values (#{m_id}, #{m_pw}, #{m_name}, #{m_email})
+	</insert>
+	
+	<!-- 로그인을 하는 select -->
+  <select id="login" parameterType="java.util.Map" resultType="mybatis.vo.MemVO">
+      select * from member_t
+      WHERE m_id = #{m_id} AND m_pw = #{m_pw}
+  </select>
+  
+  <!-- 아이디를 체크하는 select -->
+  <select id="checkId" parameterType="String" resultType="mybatis.vo.MemVO">
+      select * from member_t
+      WHERE m_id = #{m_id}
+  </select>
+</mapper>
