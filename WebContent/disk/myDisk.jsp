@@ -51,7 +51,7 @@
 			
 		}else{
 			//현재 영역은 MyDisk화면에서 원하는 폴더를 선택 할 경우 수행하는 곳!
-			if(fname != null && fname.trim().length() > 0){
+			if(fname != null && fname.trim().length() > 0 && !dir.equals(fname)){
 				dir = dir+"/"+fname; // admin/abc 형태로 들어간다.
 			}
 							
@@ -212,7 +212,7 @@
 			<tr>
 				<td>↑</td>
 				<td colspan="2">
-					<a href="javascript:goUp('')">
+					<a href="javascript:goUp('<%=dir%>')">
 						상위로...
 					</a>
 				</td>
@@ -242,7 +242,7 @@
 						<%=f.getName() %>
 					</a>
 				<%} else { // 파일인 경우 %>
-					<a href="javascript:down('')">
+					<a href="javascript:down('<%=f.getName() %>')">
 						<%=f.getName() %>
 					</a>
 				<%} %>
@@ -256,7 +256,7 @@
 	</table>
 	
 	<form name="ff" method="post" >
-		<input type="hidden" name="f_name"/><%-- 선택된 폴더 명 --%>
+		<input type="hidden" name="f_name"/><%-- 선택된 폴더/파일 명 --%>
 		<input type="hidden" name="cPath" value="<%=dir%>"/><%-- dir이 현재 위치 값이다. --%>
 	</form>
 	
@@ -356,6 +356,34 @@
 				return;
 			}
 			document.frm2.submit(); // 서버로 보낸다. (upload.jsp)
+		}
+		function down(fname){
+			//인자로 받은 파일명을 현재문서(document)에
+			// ff라는 이름을 가진 폼 안에 f_name이라는 이름을 가진 요소의
+			// 값(value)으로 지정해야 한다.
+			document.ff.f_name.value = fname;
+			
+			//해당 폼의 action을 변경하자
+			document.ff.action = "download.jsp";
+			document.ff.submit();
+			
+			document.ff.f_name.value = "";// 돌아올 때 파일명이 있어서 오류가 발생할 수 있으므로 삭제함!
+		}
+		function goUp(leng){
+			var up = leng;
+			//alert(leng);
+		
+			var str = up.lastIndexOf("/",up.length);
+			
+			var name = up.substring(0,str);
+			
+			document.ff.cPath.value = name;
+			
+			alert(str)
+			alert(name)
+			
+			document.ff.action = "myDisk.jsp";
+			document.ff.submit(); // 현재페이지 다시 로드한다.
 		}
 	</script>
 </body>
