@@ -51,7 +51,7 @@
 			
 		}else{
 			//현재 영역은 MyDisk화면에서 원하는 폴더를 선택 할 경우 수행하는 곳!
-			if(fname != null && fname.trim().length() > 0 && !dir.equals(fname)){
+			if(fname != null && fname.trim().length() > 0){
 				dir = dir+"/"+fname; // admin/abc 형태로 들어간다.
 			}
 							
@@ -370,17 +370,15 @@
 			document.ff.f_name.value = "";// 돌아올 때 파일명이 있어서 오류가 발생할 수 있으므로 삭제함!
 		}
 		function goUp(leng){
+			// 현재 경로의 문자열을 알아낸다.
 			var up = leng;
-			//alert(leng);
-		
+			// 뒤에서부터 "/"부분까지의 길이를 반환하는데 그것을 str로 받았다.
 			var str = up.lastIndexOf("/",up.length);
-			
+			// name이라는 변수에 up의 문자열을 0번지부터 "/"직전까지 살려두고 나머지는 잘라준다.
 			var name = up.substring(0,str);
-			
+			// 그렇게 설정된 경로를 절대경로로 넣어준다.
 			document.ff.cPath.value = name;
 			
-			alert(str)
-			alert(name)
 			
 			document.ff.action = "myDisk.jsp";
 			document.ff.submit(); // 현재페이지 다시 로드한다.
